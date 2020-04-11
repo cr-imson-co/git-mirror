@@ -1,0 +1,86 @@
+#!groovy
+
+pipeline {
+  options {
+    gitLabConnection('gitlab@cr.imson.co')
+    gitlabBuilds(builds: ['jenkins'])
+    disableConcurrentBuilds()
+    timestamps()
+  }
+  post {
+    failure {
+      mattermostSend color: 'danger', message: "Build failed: [${env.JOB_NAME}${env.BUILD_DISPLAY_NAME}](${env.BUILD_URL}) - @channel"
+      updateGitlabCommitStatus name: 'jenkins', state: 'failed'
+    }
+    unstable {
+      mattermostSend color: 'warning', message: "Build unstable: [${env.JOB_NAME}${env.BUILD_DISPLAY_NAME}](${env.BUILD_URL}) - @channel"
+      updateGitlabCommitStatus name: 'jenkins', state: 'failed'
+    }
+    aborted {
+      updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
+    }
+    success {
+      mattermostSend color: 'good', message: "Build completed: [${env.JOB_NAME}${env.BUILD_DISPLAY_NAME}](${env.BUILD_URL})"
+      updateGitlabCommitStatus name: 'jenkins', state: 'success'
+    }
+    always {
+      cleanWs()
+    }
+  }
+  agent {
+    docker {
+      image 'docker.cr.imson.co/git-mirror:latest'
+    }
+  }
+  environment {
+    CI = 'true'
+  }
+  stages {
+    stage('Prepare') {
+      steps {
+        updateGitlabCommitStatus name: 'jenkins', state: 'running'
+      }
+    }
+
+    stage('Sync repositories') {
+      environment {
+        SSH_CONFIG_FILE = "${env.WORKSPACE}/.ssh_config"
+        GIT_SSH_COMMAND = "ssh -F ${env.SSH_CONFIG_FILE}"
+      }
+      steps {
+
+        withCredentials([sshUserPrivateKey(credentialsId: '276dbd50-19af-4525-9d70-757a05b5a035', keyFileVariable: 'GITLAB_SSH_KEY_FILE')]) {
+          withCredentials([sshUserPrivateKey(credentialsId: '8541dc9e-7cc7-42b0-aab0-359ce7dbaa84', keyFileVariable: 'GITHUB_SSH_KEY_FILE')]) {
+            sh """
+              cat <<- EOH > ${env.SSH_CONFIG_FILE}
+                Host gitlab.cr.imson.co
+                  HostName gitlab.cr.imson.co
+                  Port 22
+                  User git
+                  StrictHostKeyChecking no
+                  IdentityFile ${GITLAB_SSH_KEY_FILE}
+
+                Host github.com
+                  HostName github.com
+                  Port 22
+                  User git
+                  StrictHostKeyChecking no
+                  IdentityFile ${GITHUB_SSH_KEY_FILE}
+              EOH
+            """.stripIndent()
+
+            dir("${env.WORKSPACE}/mirror/") {
+              sh 'chmod +x ./mirror.sh'
+              script {
+                def repositories = readJSON file: 'repositories.json', text: ''
+                repositories.each { gitlab, github ->
+                  sh "./mirror.sh ${gitlab} ${github}"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
