@@ -27,7 +27,7 @@ git clone --depth 1 $GITLAB_REPO_URI $GITLAB_REPO_DIR
 git clone --depth 1 $GITHUB_REPO_URI $GITHUB_REPO_DIR
 
 set +o errexit
-diff -x .git -r $GITLAB_REPO_DIR $GITHUB_REPO_DIR
+diff -x .git -r $GITLAB_REPO_DIR $GITHUB_REPO_DIR >/dev/null
 DIFF_STATUS=$?
 set -o errexit
 
@@ -38,7 +38,7 @@ if [ $DIFF_STATUS -ne 0 ]; then
 
     pushd $GITLAB_REPO_DIR > /dev/null
         if [ -f "$GITLAB_REPO_DIR/.gitmodules" ]; then
-            git submodule update --init --depth 1
+            git submodule update --init
             _GIT_MODULES=$(git submodule foreach -q 'echo $name!`git remote get-url origin`')
             GIT_MODULES=($_GIT_MODULES)
         fi
@@ -46,6 +46,7 @@ if [ $DIFF_STATUS -ne 0 ]; then
 
     pushd $GITHUB_REPO_DIR > /dev/null
         if [ -f "$GITLAB_REPO_DIR/.gitmodules" ]; then
+            # git submodule update --init
             for _GIT_MODULE in "${GIT_MODULES[@]}"; do
                 SUBMODULE_PATH=$(echo $_GIT_MODULE | cut -d '!' -f1)
                 SUBMODULE_URI=$(echo $_GIT_MODULE | cut -d '!' -f2)
@@ -58,7 +59,7 @@ if [ $DIFF_STATUS -ne 0 ]; then
                 set -o errexit
                 if [ $SUBMODULE_EXISTS -ne 0 ]; then
                     echo adding submodule $SUBMODULE_PATH
-                    git submodule add --depth 1 $SUBMODULE_URI $SUBMODULE_PATH
+                    git submodule add $SUBMODULE_URI $SUBMODULE_PATH
                 fi
             done
         fi
