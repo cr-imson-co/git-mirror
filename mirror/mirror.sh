@@ -31,6 +31,8 @@ diff -x .git -r $GITLAB_REPO_DIR $GITHUB_REPO_DIR
 DIFF_STATUS=$?
 set -o errexit
 
+# todo: support mirroring updates to submodules
+
 if [ $DIFF_STATUS -ne 0 ]; then
     rsync -avr --delete --exclude='.git' --exclude='deps' $GITLAB_REPO_DIR/ $GITHUB_REPO_DIR
 
