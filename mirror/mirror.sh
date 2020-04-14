@@ -46,7 +46,6 @@ if [ $DIFF_STATUS -ne 0 ]; then
 
     pushd $GITHUB_REPO_DIR > /dev/null
         if [ -f "$GITLAB_REPO_DIR/.gitmodules" ]; then
-            # git submodule update --init
             for _GIT_MODULE in "${GIT_MODULES[@]}"; do
                 SUBMODULE_PATH=$(echo $_GIT_MODULE | cut -d '!' -f1)
                 SUBMODULE_URI=$(echo $_GIT_MODULE | cut -d '!' -f2)
