@@ -9,18 +9,15 @@ pipeline {
   }
   post {
     failure {
-      mattermostSend color: 'danger', message: "Build failed: [${env.JOB_NAME}${env.BUILD_DISPLAY_NAME}](${env.BUILD_URL}) - @channel"
       updateGitlabCommitStatus name: 'jenkins', state: 'failed'
     }
     unstable {
-      mattermostSend color: 'warning', message: "Build unstable: [${env.JOB_NAME}${env.BUILD_DISPLAY_NAME}](${env.BUILD_URL}) - @channel"
       updateGitlabCommitStatus name: 'jenkins', state: 'failed'
     }
     aborted {
       updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
     }
     success {
-      mattermostSend color: 'good', message: "Build completed: [${env.JOB_NAME}${env.BUILD_DISPLAY_NAME}](${env.BUILD_URL})"
       updateGitlabCommitStatus name: 'jenkins', state: 'success'
     }
     always {
