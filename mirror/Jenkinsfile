@@ -2,24 +2,10 @@
 
 pipeline {
   options {
-    gitLabConnection('gitlab@cr.imson.co')
-    gitlabBuilds(builds: ['jenkins'])
     disableConcurrentBuilds()
     timestamps()
   }
   post {
-    failure {
-      updateGitlabCommitStatus name: 'jenkins', state: 'failed'
-    }
-    unstable {
-      updateGitlabCommitStatus name: 'jenkins', state: 'failed'
-    }
-    aborted {
-      updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
-    }
-    success {
-      updateGitlabCommitStatus name: 'jenkins', state: 'success'
-    }
     always {
       cleanWs()
     }
@@ -33,12 +19,6 @@ pipeline {
     CI = 'true'
   }
   stages {
-    stage('Prepare') {
-      steps {
-        updateGitlabCommitStatus name: 'jenkins', state: 'running'
-      }
-    }
-
     stage('Sync repositories') {
       environment {
         SSH_CONFIG_FILE = "${env.WORKSPACE}/.ssh_config"
