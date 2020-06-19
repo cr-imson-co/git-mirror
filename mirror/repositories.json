@@ -3,6 +3,7 @@
     "git@gitlab.cr.imson.co:cr.imson.co/docker-homelab-ci.git":"git@github.com:cr-imson-co/docker-homelab-ci.git",
     "git@gitlab.cr.imson.co:cr.imson.co/git-mirror-docker.git":"git@github.com:cr-imson-co/git-mirror.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/python-lambda-layer-builder.git":"git@github.com:cr-imson-co/python-lambda-layer-builder.git",
+    "git@gitlab.cr.imson.co:cr.imson.co/lambda/lambda-layer-deploy-pipeline.git":"git@github.com:cr-imson-co/lambda-layer-deploy-pipeline.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/boto3layer.git":"git@github.com:cr-imson-co/boto3layer.git",    
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/xraylayer.git":"git@github.com:cr-imson-co/xraylayer.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/appriselayer.git":"git@github.com:cr-imson-co/appriselayer.git",
