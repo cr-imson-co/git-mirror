@@ -72,6 +72,7 @@ if [ $DIFF_STATUS -ne 0 ]; then
                 pushd $SUBMODULE_PATH > /dev/null
                     git checkout $SUBMODULE_SHA
                 popd > /dev/null
+                git add $SUBMODULE_PATH
             done
         fi
         git status
