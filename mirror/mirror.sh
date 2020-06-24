@@ -34,7 +34,7 @@ set -o errexit
 # todo: support mirroring updates to submodules
 
 if [ $DIFF_STATUS -ne 0 ]; then
-    rsync -avr --delete --exclude='.git' --exclude='deps' $GITLAB_REPO_DIR/ $GITHUB_REPO_DIR
+    rsync -avr --delete --exclude='.git' $GITLAB_REPO_DIR/ $GITHUB_REPO_DIR
 
     pushd $GITLAB_REPO_DIR > /dev/null
         if [ -f "$GITLAB_REPO_DIR/.gitmodules" ]; then
