@@ -1,5 +1,4 @@
 {
-    "git@gitlab.cr.imson.co:cr.imson.co/lambda/layer-updater.git":"git@github.com:cr-imson-co/layer-updater.git",
     "git@gitlab.cr.imson.co:cr.imson.co/homelab.git":"git@github.com:cr-imson-co/homelab.git",
     "git@gitlab.cr.imson.co:cr.imson.co/docker-homelab-ci.git":"git@github.com:cr-imson-co/docker-homelab-ci.git",
     "git@gitlab.cr.imson.co:cr.imson.co/git-mirror-docker.git":"git@github.com:cr-imson-co/git-mirror.git",
@@ -7,6 +6,7 @@
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/xraylayer.git":"git@github.com:cr-imson-co/xraylayer.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/appriselayer.git":"git@github.com:cr-imson-co/appriselayer.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/crimsoncore.git":"git@github.com:cr-imson-co/crimsoncore.git",
+    "git@gitlab.cr.imson.co:cr.imson.co/lambda/layer-updater.git":"git@github.com:cr-imson-co/layer-updater.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/notification-lambda.git":"git@github.com:cr-imson-co/notification-lambda.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/ec2-state-mgmt-lambda.git":"git@github.com:cr-imson-co/ec2-state-mgmt-lambda.git"
 }

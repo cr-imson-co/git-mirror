@@ -60,9 +60,6 @@ if [ $DIFF_STATUS -ne 0 ]; then
 
     pushd $GITHUB_REPO_DIR > /dev/null
         if [ -f "$GITLAB_REPO_DIR/.gitmodules" ]; then
-            
-            ls -la .
-            pwd
             echo "" >| $GITHUB_REPO_DIR/.gitmodules
             rm -rf $GITHUB_REPO_DIR/deps/
             for _GIT_MODULE in "${GIT_MODULES[@]}"; do
@@ -77,6 +74,7 @@ if [ $DIFF_STATUS -ne 0 ]; then
                 popd > /dev/null
             done
         fi
+        git status
         git add -A .
         git commit -m '[jenkins] Automated git mirroring from cr.imson.co repository'
         git push origin master -f
