@@ -75,6 +75,7 @@ if [ $DIFF_STATUS -ne 0 ]; then
             done
         fi
         git status
+        git submodule foreach -q 'echo `git status`'
         git add -A .
         git commit -m '[jenkins] Automated git mirroring from cr.imson.co repository'
         git push origin master -f
