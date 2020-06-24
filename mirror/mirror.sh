@@ -34,36 +34,47 @@ set -o errexit
 # todo: support mirroring updates to submodules
 
 if [ $DIFF_STATUS -ne 0 ]; then
-    rm -r $GITHUB_REPO_DIR/*
+    if [ -f "$GITHUB_REPO_DIR/.gitmodules" ]; then
+        pushd $GITHUB_REPO_DIR > /dev/null
+            git submodule update --init
+            _GIT_MODULES=$(git submodule foreach -q 'echo $name')
+            GIT_MODULES=($_GIT_MODULES)
+
+            for _GIT_MODULE in "${GIT_MODULES[@]}"; do
+                echo removing $_GIT_MODULE from github repo
+                git rm --cached $_GIT_MODULE
+                rm -rf $GITHUB_REPO_DIR/.git/modules/$_GIT_MODULE
+            done
+        popd > /dev/null
+    fi
+
     rsync -avr --delete --exclude='.git' $GITLAB_REPO_DIR/ $GITHUB_REPO_DIR
 
     pushd $GITLAB_REPO_DIR > /dev/null
         if [ -f "$GITLAB_REPO_DIR/.gitmodules" ]; then
             git submodule update --init
-            _GIT_MODULES=$(git submodule foreach -q 'echo $name!`git remote get-url origin`')
+            _GIT_MODULES=$(git submodule foreach -q 'echo $name!`git remote get-url origin`!`git rev-parse HEAD`')
             GIT_MODULES=($_GIT_MODULES)
         fi
     popd > /dev/null
 
     pushd $GITHUB_REPO_DIR > /dev/null
         if [ -f "$GITLAB_REPO_DIR/.gitmodules" ]; then
-            if [ -d "$GITHUB_REPO_DIR/deps/boto3layer" ]; then
-                rm -rf "$GITHUB_REPO_DIR/deps/boto3layer"
-            fi
+            
+            ls -la .
+            pwd
+            echo "" >| $GITHUB_REPO_DIR/.gitmodules
+            rm -rf $GITHUB_REPO_DIR/deps/
             for _GIT_MODULE in "${GIT_MODULES[@]}"; do
                 SUBMODULE_PATH=$(echo $_GIT_MODULE | cut -d '!' -f1)
                 SUBMODULE_URI=$(echo $_GIT_MODULE | cut -d '!' -f2)
+                SUBMODULE_SHA=$(echo $_GIT_MODULE | cut -d '!' -f3)
 
-                echo checking for submodule $SUBMODULE_PATH
-
-                set +o errexit
-                git submodule status | grep $SUBMODULE_PATH
-                SUBMODULE_EXISTS=$?
-                set -o errexit
-                if [ $SUBMODULE_EXISTS -ne 0 ]; then
-                    echo adding submodule $SUBMODULE_PATH
-                    git submodule add $SUBMODULE_URI $SUBMODULE_PATH
-                fi
+                echo adding submodule $SUBMODULE_PATH
+                git submodule add $SUBMODULE_URI $SUBMODULE_PATH
+                pushd $SUBMODULE_PATH > /dev/null
+                    git checkout $SUBMODULE_SHA
+                popd > /dev/null
             done
         fi
         git add -A .
