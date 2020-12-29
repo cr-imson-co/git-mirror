@@ -2,6 +2,8 @@
     "git@gitlab.cr.imson.co:cr.imson.co/homelab.git":"git@github.com:cr-imson-co/homelab.git",
     "git@gitlab.cr.imson.co:cr.imson.co/docker-homelab-ci.git":"git@github.com:cr-imson-co/docker-homelab-ci.git",
     "git@gitlab.cr.imson.co:cr.imson.co/git-mirror-docker.git":"git@github.com:cr-imson-co/git-mirror.git",
+    "git@gitlab.cr.imson.co:cr.imson.co/ansible.git":"git@github.com:cr-imson-co/ansible.git",
+    "git@gitlab.cr.imson.co:cr.imson.co/pi-bootstrap.git":"git@github.com:cr-imson-co/pi-bootstrap.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/python-lambda-builder.git":"git@github.com:cr-imson-co/python-lambda-builder.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/xraylayer.git":"git@github.com:cr-imson-co/xraylayer.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/appriselayer.git":"git@github.com:cr-imson-co/appriselayer.git",
