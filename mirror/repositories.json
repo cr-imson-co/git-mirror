@@ -3,6 +3,7 @@
     "git@gitlab.cr.imson.co:cr.imson.co/docker-homelab-ci.git":"git@github.com:cr-imson-co/docker-homelab-ci.git",
     "git@gitlab.cr.imson.co:cr.imson.co/git-mirror-docker.git":"git@github.com:cr-imson-co/git-mirror.git",
     "git@gitlab.cr.imson.co:cr.imson.co/ansible.git":"git@github.com:cr-imson-co/ansible.git",
+    "git@gitlab.cr.imson.co:cr.imson.co/aws-configuration.git":"git@github.com:cr-imson-co/aws-configuration.git",
     "git@gitlab.cr.imson.co:cr.imson.co/pi-bootstrap.git":"git@github.com:cr-imson-co/pi-bootstrap.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/python-lambda-builder.git":"git@github.com:cr-imson-co/python-lambda-builder.git",
     "git@gitlab.cr.imson.co:cr.imson.co/lambda/boto3layer.git":"git@github.com:cr-imson-co/boto3layer.git",
