@@ -12,7 +12,9 @@ pipeline {
   }
   agent {
     docker {
-      image 'docker.cr.imson.co/git-mirror:latest'
+      image 'containers.cr.imson.co/cr.imson.co/git-mirror-docker:latest'
+      registryUrl 'https://containers.cr.imson.co/'
+      registryCredentialsId 'f8a2eb1f-3ccc-4dff-ad31-f3d7987f81c0'
     }
   }
   environment {

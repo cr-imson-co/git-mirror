@@ -42,10 +42,10 @@ pipeline {
     stage('Build image') {
       steps {
         script {
-          withDockerRegistry(credentialsId: 'e22deec5-510b-4fbe-8916-a89e837d1b8d', url: 'https://docker.cr.imson.co/v2/') {
+          withDockerRegistry(credentialsId: 'f8a2eb1f-3ccc-4dff-ad31-f3d7987f81c0', url: 'https://containers.cr.imson.co/') {
             withCredentials([file(credentialsId: '24f103dd-4f2d-4714-94f7-77478831dca8', variable: 'GIT_CONFIG_FILE')]) {
               sh "cp ${env.GIT_CONFIG_FILE} ${env.WORKSPACE}/.gitconfig"
-              docker.build('docker.cr.imson.co/git-mirror').push()
+              docker.build('containers.cr.imson.co/cr.imson.co/git-mirror-docker').push()
             }
           }
         }
