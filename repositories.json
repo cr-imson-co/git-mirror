@@ -1,0 +1,54 @@
+[
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/homelab.git", 
+        "dest":"git@github.com:cr-imson-co/homelab.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/docker-homelab-ci.git", 
+        "dest":"git@github.com:cr-imson-co/docker-homelab-ci.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/git-mirror-docker.git", 
+        "dest":"git@github.com:cr-imson-co/git-mirror.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/ansible.git", 
+        "dest":"git@github.com:cr-imson-co/ansible.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/aws-configuration.git", 
+        "dest":"git@github.com:cr-imson-co/aws-configuration.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/pi-bootstrap.git", 
+        "dest":"git@github.com:cr-imson-co/pi-bootstrap.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/lambda/python-lambda-builder.git", 
+        "dest":"git@github.com:cr-imson-co/python-lambda-builder.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/lambda/boto3layer.git", 
+        "dest":"git@github.com:cr-imson-co/boto3layer.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/lambda/appriselayer.git", 
+        "dest":"git@github.com:cr-imson-co/appriselayer.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/lambda/crimsoncore.git", 
+        "dest":"git@github.com:cr-imson-co/crimsoncore.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/lambda/layer-updater.git", 
+        "dest":"git@github.com:cr-imson-co/layer-updater.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/lambda/notification-lambda.git", 
+        "dest":"git@github.com:cr-imson-co/notification-lambda.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/lambda/ec2-state-mgmt-lambda.git", 
+        "dest":"git@github.com:cr-imson-co/ec2-state-mgmt-lambda.git"
+    }
+]

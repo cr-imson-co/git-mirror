@@ -1,0 +1,64 @@
+docker:
+  stage: 'build'
+  image:
+    name: 'gcr.io/kaniko-project/executor:debug'
+    entrypoint: ['']
+  tags:
+  - 'docker'
+  - 'amd64'
+  script:
+  - 'mkdir -p /kaniko/.docker'
+  - |
+    REGISTRY_CREDS=$(echo -n ${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD} | base64 | tr -d '\n')
+    echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$REGISTRY_CREDS\"},\"$CI_DEPENDENCY_PROXY_SERVER\":{\"auth\":\"$REGISTRY_CREDS\"}}}" > /kaniko/.docker/config.json
+  - '/kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:latest'
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"'
+      changes:
+      - 'Dockerfile'
+
+mirror:
+  stage: 'deploy'
+  image:
+    name: 'containers.cr.imson.co/cr.imson.co/git-mirror-docker'
+    entrypoint: ['']
+  tags:
+  - 'docker'
+  - 'amd64'
+  before_script:
+  - 'eval $(ssh-agent -s)'
+  - 'mkdir -p ~/.ssh && chmod 700 ~/.ssh'
+  - 'echo "${GITLAB_SSH_PRIVATE_KEY}" | openssl base64 -A -d | ssh-add -'
+  - 'echo "${GITHUB_SSH_PRIVATE_KEY}" | openssl base64 -A -d | ssh-add -'
+  - |
+    cat <<- EOH > ~/.ssh/config
+      Host gitlab.cr.imson.co
+        HostName gitlab.cr.imson.co
+        Port 22
+        User git
+        StrictHostKeyChecking no
+        IdentitiesOnly yes
+        IdentityFile ${GITLAB_SSH_PUBLIC_KEY}
+
+      Host github.com
+        HostName github.com
+        Port 22
+        User git
+        StrictHostKeyChecking no
+        IdentitiesOnly yes
+        IdentityFile ${GITHUB_SSH_PUBLIC_KEY}
+    EOH
+  - |
+    cat <<- EOH > ~/.gitconfig
+      [user]
+          name = Damian Bushong
+          email = katana@odios.us
+    EOH
+  script:
+  - |
+    cat repositories.json | jq -r '.[]|[.source, .dest] | @tsv' |
+      while IFS=$'\t' read -r SOURCE DEST; do
+        ./mirror.sh "$SOURCE" "$DEST"
+      done
+  rules:
+  - if: '$CI_PIPELINE_SOURCE == "schedule" || $CI_PIPELINE_SOURCE == "manual"'
