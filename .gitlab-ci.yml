@@ -1,3 +1,7 @@
+variables:
+  FORCE_BUILD_DOCKER: 'false'
+  PREVENT_MIRROR_RUN: 'false'
+
 docker:
   stage: 'build'
   image:
@@ -13,6 +17,7 @@ docker:
     echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$REGISTRY_CREDS\"},\"$CI_DEPENDENCY_PROXY_SERVER\":{\"auth\":\"$REGISTRY_CREDS\"}}}" > /kaniko/.docker/config.json
   - '/kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:latest'
   rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && ($CI_PIPELINE_SOURCE == "web" || $CI_PIPELINE_SOURCE == "webide" || $CI_PIPELINE_SOURCE == "api") && $FORCE_BUILD_DOCKER == "true"'
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"'
       changes:
       - 'Dockerfile'
@@ -20,7 +25,7 @@ docker:
 mirror:
   stage: 'deploy'
   image:
-    name: 'containers.cr.imson.co/cr.imson.co/git-mirror-docker'
+    name: 'containers.cr.imson.co/cr.imson.co/git-mirror'
     entrypoint: ['']
   tags:
   - 'docker'
@@ -61,4 +66,4 @@ mirror:
         ./mirror.sh "$SOURCE" "$DEST"
       done
   rules:
-  - if: '$CI_PIPELINE_SOURCE == "schedule" || $CI_PIPELINE_SOURCE == "manual"'
+  - if: '($CI_PIPELINE_SOURCE == "schedule" || $CI_PIPELINE_SOURCE == "web" || $CI_PIPELINE_SOURCE == "webide" || $CI_PIPELINE_SOURCE == "api") && $PREVENT_MIRROR_RUN != "true"'

@@ -80,7 +80,7 @@ if [ $DIFF_STATUS -ne 0 ]; then
 
         git add -A .
         if [[ -n $(git status -s) ]]; then
-            git commit -m '[jenkins] Automated git mirroring from cr.imson.co repository'
+            git commit -m '[ci] Automated git mirroring from cr.imson.co repository'
             git push origin master -f
         fi
     popd > /dev/null
