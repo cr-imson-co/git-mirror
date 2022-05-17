@@ -14,5 +14,9 @@
     {
         "source": "git@gitlab.cr.imson.co:cr.imson.co/pi-bootstrap.git", 
         "dest":"git@github.com:cr-imson-co/pi-bootstrap.git"
+    },
+    {
+        "source": "git@gitlab.cr.imson.co:cr.imson.co/wireguard-config.git", 
+        "dest":"git@github.com:cr-imson-co/wireguard-config.git"
     }
 ]

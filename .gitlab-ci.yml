@@ -57,7 +57,7 @@ mirror:
     cat <<- EOH > ~/.gitconfig
       [user]
           name = Damian Bushong
-          email = katana@odios.us
+          email = 121707+damianb@users.noreply.github.com
     EOH
   script:
   - |
