@@ -8,10 +8,6 @@
         "dest":"git@github.com:cr-imson-co/git-mirror.git"
     },
     {
-        "source": "git@gitlab.cr.imson.co:cr.imson.co/ansible.git", 
-        "dest":"git@github.com:cr-imson-co/ansible.git"
-    },
-    {
         "source": "git@gitlab.cr.imson.co:cr.imson.co/pi-bootstrap.git", 
         "dest":"git@github.com:cr-imson-co/pi-bootstrap.git"
     },
